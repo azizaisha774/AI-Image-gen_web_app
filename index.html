@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pixelle · AI image generator</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header>
+    <h1>Pixelle</h1>
+    <p>Describe it in words. Get an image in seconds.</p>
+  </header>
+
+  <main>
+    <section class="controls">
+      <label for="prompt">What should the image show?</label>
+      <textarea id="prompt" maxlength="300" rows="5"
+        placeholder="A lighthouse on a cliff at sunset, waves crashing below"></textarea>
+      <div class="count"><span id="count">0</span>/300</div>
+
+      <div class="row">
+        <label>Style
+          <select id="style">{% for s in styles %}<option>{{ s }}</option>{% endfor %}</select>
+        </label>
+        <label>Shape
+          <select id="size">{% for s in sizes %}<option>{{ s }}</option>{% endfor %}</select>
+        </label>
+      </div>
+
+      <button id="go" class="primary">Generate image</button>
+      <p id="msg" role="status"></p>
+    </section>
+
+    <section class="stage-wrap">
+      <div id="stage" class="stage">
+        <p id="placeholder">Your image will appear here.</p>
+        <img id="preview" alt="Generated image" hidden>
+      </div>
+      <div class="stage-bar">
+        <span id="caption"></span>
+        <a id="dl" class="download" hidden>Download image</a>
+      </div>
+    </section>
+  </main>
+
+  <section class="history">
+    <h2>Recent images</h2>
+    <div id="gallery" class="gallery">
+      {% for h in history %}
+      <button class="thumb" data-id="{{ h.id }}" data-prompt="{{ h.prompt }}"
+              data-src="{{ url_for('static', filename='generated/' + h.filename) }}">
+        <img src="{{ url_for('static', filename='generated/' + h.filename) }}" alt="{{ h.prompt }}" loading="lazy">
+      </button>
+      {% else %}
+      <p id="empty">Nothing yet. Write a prompt and press Generate image.</p>
+      {% endfor %}
+    </div>
+  </section>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+CREATE DATABASE IF NOT EXISTS image_generator;
+USE image_generator;
+
+CREATE TABLE IF NOT EXISTS images (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    prompt VARCHAR(400) NOT NULL,
+    style VARCHAR(40) NOT NULL,
+    filename VARCHAR(80) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
